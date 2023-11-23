@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRM Админка</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        #adminContainer {
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .admin-option {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+            margin: 20px;
+            cursor: pointer;
+        }
+
+        .admin-option:hover {
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <div id="adminContainer">
+        <h1>Администрирование CRM</h1>
+
+        <!-- Опция "Посмотреть пользователей" -->
+        <div class="admin-option" onclick="showUsers()">
+            <h2>Посмотреть пользователей</h2>
+        </div>
+
+        <!-- Опция "Удалить пользователей" -->
+        <div class="admin-option" onclick="deleteUsers()">
+            <h2>Удалить пользователей</h2>
+        </div>
+
+        <!-- Опция "Добавить пользователей" -->
+        <div class="admin-option" onclick="addUser()">
+            <h2>Добавить пользователя</h2>
+        </div>
+    </div>
+
+    <script src="adminScript.js"></script>
+</body>
+</html>
