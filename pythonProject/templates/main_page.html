@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Авторизация</title>
+    <link rel="stylesheet" href="/static/styles/main_page.css">
+</head>
+<body>
+    <div id="loginForm_Outer">
+        <h1>Авторизация пользователя</h1>
+        <img src="/static/img/packman.jpg" alt="" id = "login_form_image">
+        <form id="loginForm_Inner" action = '/' method = "Post">
+            <label for="username">Почта:</label>
+            <input type="text" id="username" name="email_address" required><br><br>
+
+            <label for="password">Пароль:</label>
+            <input type="password" id="password" name="password" required><br><br>
+            <p>{{error}}</p>
+            <input type="submit" value="Войти">
+        </form>
+
+        <div id="message"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

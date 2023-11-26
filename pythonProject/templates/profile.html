@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профиль аккаунта CRM</title>
+    <link rel="stylesheet" href="/static/styles/profile.css">
+</head>
+<body>
+
+    <header>
+        <h1>Профиль аккаунта CRM</h1>
+    </header>
+
+    <section>
+        <div class="profile-container">
+            <img class="profile-image" src="avatar.jpg" alt="Аватар пользователя">
+            <div class="profile-info">
+                <label>ФИО:</label> {{user[2] + " " + user[3] + " " + user[4]}}<br>
+                <label>Email:</label> {{user[9]}}<br>
+                <label>Телефон:</label> {{user[8]}}<br>
+                <!-- Другие поля профиля -->
+            </div>
+            <button class="logout-btn" onclick="logout()">Выйти</button>
+        </div>
+    </section>
+
+    <script>
+        function logout() {
+            // Добавьте здесь код для выхода из аккаунта, например, перенаправление на страницу входа
+            alert("Вы успешно вышли из аккаунта!");
+            // window.location.href = "login.html";
+        }
+    </script>
+
+</body>
+</html>
