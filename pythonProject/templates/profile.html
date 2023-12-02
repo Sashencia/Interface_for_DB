@@ -14,22 +14,76 @@
 
     <section>
         <div class="profile-container">
-            <img class="profile-image" src="avatar.jpg" alt="Аватар пользователя">
+            <img class="profile-image" src="/static/img/avatar.jpg" alt="Аватар пользователя">
             <div class="profile-info">
-                <label>ФИО:</label> {{user[2] + " " + user[3] + " " + user[4]}}<br>
-                <label>Email:</label> {{user[9]}}<br>
-                <label>Телефон:</label> {{user[8]}}<br>
-                <!-- Другие поля профиля -->
+                <label>ФИО:</label> {{user[4] + " " + user[5] + " " + user[6]}}<br>
+                <label>Email:</label> {{user[11]}}<br>
+                <label>Телефон:</label> {{user[10]}}<br>
+                <label>Информация о грейде:</label>{{grade[1]}}<br>
+                <label>Позиция в департаменте:</label>{{depart_position[3]}}<br>
+                <label>Департамент:</label>{{department[1]}}<br>
+                <button class="documents-btn" onclick="openModal()">Документы</button>
             </div>
             <button class="logout-btn" onclick="logout()">Выйти</button>
         </div>
     </section>
 
+    <!-- Модальное окно с информацией о документах -->
+    <div id="modal" class="modal" onclick="closeModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <h2>Информация о документах</h2>
+            <!--<p>Образование: {{diploma[2] + "\n" + diploma[3] + "\n" + diploma[4] + "\n" + diploma[5] + "\n" + diploma[6]}}</p> -->
+            <table>
+                <tr>
+                    <td>Образование:</td>
+                    <td>{{diploma[2]}}</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>{{diploma[3]}}</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>{{diploma[4]}}</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>{{diploma[5]}}</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>{{diploma[6]}}</td>
+                </tr>
+                </table>
+            <p>Медицинские справки: {{user[15]}}</p>
+            <p>Сертификаты: {{achievments[1]}}</p>
+            <span class="close" onclick="closeModal()">&#10006;</span>
+        </div>
+    </div>
+
     <script>
+        // Показать модальное окно
+        function openModal() {
+            document.getElementById('modal').style.display = 'flex';
+        }
+
+        // Закрыть модальное окно
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+
+        // Закрыть модальное окно при клике вне области
+        window.onclick = function(event) {
+            if (event.target == document.getElementById('modal')) {
+                closeModal();
+            }
+        }
+
+        // Выход из аккаунта
         function logout() {
-            // Добавьте здесь код для выхода из аккаунта, например, перенаправление на страницу входа
+            window.location.href = /logout;
             alert("Вы успешно вышли из аккаунта!");
-            // window.location.href = "login.html";
+
         }
     </script>
 
