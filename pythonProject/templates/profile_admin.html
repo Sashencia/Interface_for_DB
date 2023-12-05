@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .admin-window {
+      width: 80%;
+      margin: auto;
+      text-align: center;
+      padding: 20px;
+    }
+    .search-bar {
+      margin-bottom: 20px;
+    }
+    .admin-button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 20px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body  id="userTable">
+
+<div class="admin-window">
+  <div class="search-bar">
+    <input id="searchInput" type="text" placeholder="Поиск пользователя...">
+    <button class="admin-button" onclick="searchUser()">Найти</button>
+  </div>
+
+  <table>
+    <tr>
+      <th>ФИО</th>
+      <th>Телефон</th>
+      <th>Почта</th>
+      <th>Действия</th>
+    </tr>
+    {% for person in users %}
+    <tr>
+      <td>{{ person[23] }}</td>
+      <td>{{ person[10] }}</td>
+      <td>{{ person[11] }}</td>
+      <td>
+        <button class="admin-button" onclick="showInfo('{{ person[0] }}')">Информация</button>
+        <button class="admin-button" onclick="deleteUser('{{ person[0] }}')">Удалить</button>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+
+  <form action="/add_user" method="post">
+    <button type="submit" class="admin-button">Добавить пользователя</button>
+    <div class="form-group">
+      <label for="lastName">Фамилия:</label>
+      <input type="text" id="lastName" name="lastName">
+    </div>
+    <div class="form-group">
+      <label for="firstName">Имя:</label>
+      <input type="text" id="firstName" name="firstName">
+    </div>
+    <div class="form-group">
+      <label for="patronymic">Отчество:</label>
+      <input type="text" id="patronymic" name="patronymic">
+    </div>
+    <div class="form-group">
+      <label for="status">Статус:</label>
+      <select id="status" name="status">
+        <option value="user">Пользователь</option>
+        <option value="admin">Админ</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="gender">Пол:</label>
+      <select id="gender" name="gender">
+        <option value="male">Мужской</option>
+        <option value="female">Женский</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email">
+    </div>
+    <div class="form-group">
+      <label for="passw">Пароль:</label>
+      <input type="text" id="passw" name="passw">
+    </div>
+    <div class="form-group">
+      <label for="phone">Телефон:</label>
+      <input type="tel" id="phone" name="phone">
+    </div>
+    <div class="form-group">
+      <label for="snils">Снилс:</label>
+      <input type="text" id="snils" name="snils">
+    </div>
+    <div class="form-group">
+      <label for="inn">Инн:</label>
+      <input type="text" id="inn" name="inn">
+    </div>
+    <div class="form-group">
+      <label for="medicalRecords">Медицинские справки:</label>
+      <input type="text" id="medicalRecords" name="medicalRecords">
+    </div>
+  </form>
+
+</div>
+
+<script>
+  function searchUser() {
+    var searchTerm = document.getElementById('searchInput').value;
+    var data = { term: searchTerm };
+    fetch('/profile_admin', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+    .then(response => response.text())
+    .then(html => {
+      document.getElementById('userTable').outerHTML = html;
+    });
+  }
+
+  function showInfo(userId) {
+    location.href = '/profile_user/' + String(userId);
+  }
+
+  function deleteUser(userId) {
+    var searchTerm = document.getElementById('searchInput').value;
+    var data = { term: searchTerm };
+    location.href = '/delete_user/' + String(userId);
+  }
+</script>
+
+</body>
+</html>

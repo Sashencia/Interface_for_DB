@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Профиль аккаунта CRM</title>
-    <link rel="stylesheet" href="/static/styles/profile.css">
+    <link rel="stylesheet" href="/static/styles/profile_normal.css">
 </head>
 <body>
 
@@ -81,10 +81,18 @@
 
         // Выход из аккаунта
         function logout() {
-            window.location.href = /logout;
-            alert("Вы успешно вышли из аккаунта!");
+        // Всплывающее окно для подтверждения выхода
+        var confirmLogout = confirm("Вы уверены, что хотите выйти?");
 
+        if (confirmLogout) {
+            // Если пользователь выбрал "да", перенаправляем на страницу выхода
+            window.location.href = '/logout';
+        } else {
+            // Если пользователь выбрал "нет", оставляем его на текущей странице
+            // Можно добавить дополнительные действия, если нужно
         }
+}
+
     </script>
 
 </body>
