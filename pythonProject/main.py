@@ -43,30 +43,6 @@ def db_connect(request):
         cursor.close()  # Разрываем соединение с базой данных
     return data
 
-# Функция для подключения к базе данных
-# def db_connect(request):
-#     cnxn = pyodbc.connect("Driver={SQL Server};"
-#                           "Server=ALEKSANDRA;"
-#                           "Database=CRM1;"
-#                           "Trusted_Connection=yes;")
-#
-#     cursor = cnxn.cursor()
-#     cursor.execute(request)
-#     data = []
-#     if 'SELECT' in request:
-#         data = [row for row in cursor]
-#         description = cursor.description
-#         cursor.close()
-#     else:
-#         cnxn.commit()
-#         cursor.close()
-#
-#     cnxn.close()  # Закрываем соединение с базой данных
-#     return data, description if 'SELECT' in request else None
-
-
-
-
 
 # Что происходит на пути "/", т.е. на главной странице
 @app.route('/', methods=['POST', 'GET'])
@@ -156,28 +132,6 @@ def add_user():
 
 from flask import jsonify
 
-def db_get_all_tables():
-    request = 'SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = \'BASE TABLE\''
-    tables = db_connect(request)
-    return tables
-
-@app.route('/get_all_tables', methods=['POST'])
-def get_all_tables():
-    all_tables = db_get_all_tables()  # Предположим, что у вас есть метод db_get_all_tables в классе, который обращается к базе данных и возвращает результат запроса
-
-    serialized_tables = []
-
-    for table in all_tables:
-        # Преобразовать каждую строку в словарь
-        serialized_row = {}
-        for key, value in table.items():
-            # Преобразовать Decimal в float (если это необходимо)
-            if isinstance(value, Decimal):
-                value = float(value)
-            serialized_row[key] = value
-        serialized_tables.append(serialized_row)
-
-    return jsonify(all_tables=serialized_tables)
 
 
 @app.route('/profile_normal', methods=['POST', 'GET'])
@@ -190,7 +144,6 @@ def profile():
         # if not user_data:
         #     # Пользователь с текущим id не найден
         #     return redirect("/")
-
         # user = user_data[0]
         department = db_connect(f"SELECT * FROM Department WHERE [id] = '{current_user['id']}'")
         education = db_connect(f"SELECT * FROM Diploma WHERE [id] = '{current_user['id']}'")
@@ -198,18 +151,9 @@ def profile():
         depart_position = db_connect(f"SELECT * FROM Position WHERE [Position_id] = '{current_user['id']}'")
         diploma = db_connect(f"SELECT * FROM Diploma WHERE [id] = '{current_user['id']}'")
         achievments = db_connect(f"SELECT * FROM Review WHERE [id] = '{current_user['id']}'")
-        # conn = db_connect()
-        # cursor = conn.cursor()
-        # cursor.execute('SELECT * FROM Passport')
-        # # Получение заголовков столбцов
-        # columns = [column[0] for column in cursor.description]
-        # # Получение данных из таблицы
-        # data = cursor.fetchall()
-        # conn.close()
-        #return render_template('profile_normal.html', columns=columns, data=data)
-        print(user)
+        print("users", user)
         if request.method == 'POST':
-            data = request.form
+            data = request.json
             print(data)
             #return jsonify({"status": "success"})
             search_term = data['term']
@@ -219,13 +163,12 @@ def profile():
 
             # Здесь вы можете добавить код для получения всех таблиц из базы данных
             # Предположим, что у вас есть функция db_get_all_tables, которая возвращает список таблиц
-            all_tables = db_get_all_tables()
 
             return render_template('profile_normal.html', user=user[0],
                                    department=department[0], education=education[0],
                                    grade=grade[0], depart_position=depart_position[0],
                                    diploma=diploma[0], achievments=achievments[0],
-                                   users=users, all_tables=all_tables)
+                                   users=users)
         # Передаем в хтмл найденного пользователя
         return render_template('profile_normal.html', user=user[0],
                                department=department[0], education=education[0],
@@ -237,6 +180,22 @@ def profile():
         # columns1 = [column1[0] for column1 in description] if description else None
         # return render_template('profile_normal.html', columns=columns1, data=data1)
     return redirect("/")
+
+@app.route('/Users_table', methods=['POST', 'GET'])
+def Users_table():
+    users1 = db_connect(f"SELECT Users_id, [surname] FROM Users WHERE [Users_id] = 1 or [Users_id] = 2 ")
+    return render_template("Users_table.html", users1 = users1)
+@app.route('/tables', methods=['POST', 'GET'])
+def tables():
+    users1 = db_connect(f"SELECT * FROM Users")
+    department1 = db_connect(f"SELECT * FROM Department")
+    education1 = db_connect(f"SELECT * FROM Diploma")
+    grade1 = db_connect(f"SELECT * FROM Grade")
+    depart_position1 = db_connect(f"SELECT * FROM Position")
+    stack1 = db_connect(f"SELECT * FROM Stack")
+    review1 = db_connect(f"SELECT * FROM Review")
+    return render_template('tables.html', users1 = users1, depart_position1 = depart_position1[0], department1 = department1[0],
+                           grade1 = grade1[0], education1 = education1[0], stack1 = stack1[0], review1 = review1[0])
 
 
 @app.route('/profile_user/<int:id_>', methods=['POST', 'GET'])
@@ -310,6 +269,6 @@ def logout():
     return redirect("/")
 
 
-current_user = {"is_authenticated": False, "id": 0}
+current_user = {"is_authenticated": True, "id": 1}
 
 app.run()

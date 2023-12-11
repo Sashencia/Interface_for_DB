@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Data Table</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>User Data Table</h2>
+
+    <div id="results-container">
+               <h2>Результаты</h2>
+                <div id="table-wrapper">
+                    <table id="results-table">
+        <thead>
+            <tr>
+                <th onclick ="sortTable(0)">Users_id</th>
+                <th onclick ="sortTable(1)">admin_check</th>
+                <th onclick ="sortTable(2)">passw</th>
+                <th onclick ="sortTable(3)">photo</th>
+                <th onclick ="sortTable(4)">surname</th>
+                <th onclick ="sortTable(5)">name</th>
+                <th onclick ="sortTable(6)">patronymic</th>
+                <th onclick ="sortTable(7)">sex</th>
+                <th onclick ="sortTable(8)">passport_id</th>
+                <th onclick ="sortTable(9)">city</th>
+                <th>phone_number</th>
+                <th>email_address</th>
+                <th>work_email_address</th>
+                <th>snils</th>
+                <th>inn</th>
+                <th>medical_policy</th>
+                <th>documents_id</th>
+                <th>salary</th>
+                <th>employment_date</th>
+                <th>vacation_date</th>
+                <th>probation</th>
+                <th>distant_work</th>
+                <th>country</th>
+            </tr>
+        </thead>
+        <tbody id="results-body">
+            {% for person in users1 %}
+            <tr>
+                <td>{{person[0]}}</td>
+                <td>{{person[1]}}</td>
+                <td>{{person[2]}}</td>
+                <td>{{person[3]}}</td>
+                <td>{{person[4]}}</td>
+                <td>{{person[5]}}</td>
+                <td>{{person[6]}}</td>
+                <td>{{person[7]}}</td>
+                <td>{{person[8]}}</td>
+                <td>{{person[9]}}</td>
+                <td>{{person[10]}}</td>
+                <td>{{person[11]}}</td>
+                <td>{{person[12]}}</td>
+                <td>{{person[13]}}</td>
+                <td>{{person[14]}}</td>
+                <td>{{person[15]}}</td>
+                <td>{{person[16]}}</td>
+                <td>{{person[17]}}</td>
+                <td>{{person[18]}}</td>
+                <td>{{person[19]}}</td>
+                <td>{{person[20]}}</td>
+                <td>{{person[21]}}</td>
+                <td>{{person[22]}}</td>
+            </tr>
+            {% endfor %}
+            <tr>
+            </tr>
+        </tbody>
+    </table>
+                </div>
+          </div>
+
+    <table id="results-table">
+        <thead>
+            <tr>
+                <th onclick ="sortTable(0)">Users_id</th>
+                <th onclick ="sortTable(1)">admin_check</th>
+                <th onclick ="sortTable(2)">passw</th>
+                <th onclick ="sortTable(3)">photo</th>
+                <th onclick ="sortTable(4)">surname</th>
+                <th onclick ="sortTable(5)">name</th>
+                <th onclick ="sortTable(6)">patronymic</th>
+                <th onclick ="sortTable(7)">sex</th>
+                <th onclick ="sortTable(8)">passport_id</th>
+                <th onclick ="sortTable(9)">city</th>
+                <th>phone_number</th>
+                <th>email_address</th>
+                <th>work_email_address</th>
+                <th>snils</th>
+                <th>inn</th>
+                <th>medical_policy</th>
+                <th>documents_id</th>
+                <th>salary</th>
+                <th>employment_date</th>
+                <th>vacation_date</th>
+                <th>probation</th>
+                <th>distant_work</th>
+                <th>country</th>
+            </tr>
+        </thead>
+        <tbody id="results-body">
+            {% for person in users1 %}
+            <tr>
+                <td>{{person[0]}}</td>
+                <td>{{person[1]}}</td>
+                <td>{{person[2]}}</td>
+                <td>{{person[3]}}</td>
+                <td>{{person[4]}}</td>
+                <td>{{person[5]}}</td>
+                <td>{{person[6]}}</td>
+                <td>{{person[7]}}</td>
+                <td>{{person[8]}}</td>
+                <td>{{person[9]}}</td>
+                <td>{{person[10]}}</td>
+                <td>{{person[11]}}</td>
+                <td>{{person[12]}}</td>
+                <td>{{person[13]}}</td>
+                <td>{{person[14]}}</td>
+                <td>{{person[15]}}</td>
+                <td>{{person[16]}}</td>
+                <td>{{person[17]}}</td>
+                <td>{{person[18]}}</td>
+                <td>{{person[19]}}</td>
+                <td>{{person[20]}}</td>
+                <td>{{person[21]}}</td>
+                <td>{{person[22]}}</td>
+            </tr>
+            {% endfor %}
+            <tr>
+            </tr>
+        </tbody>
+    </table>
+    <script>
+    var lastSortedColumn = -1;
+    var ascending = true;
+
+    function sortTable(columnIndex) {
+        var table, rows, switching, i, x, y, shouldSwitch;
+        table = document.getElementById("results-table");
+        switching = true;
+
+        while (switching) {
+            switching = false;
+            rows = table.rows;
+
+            for (i = 1; i < rows.length - 1; i++) {
+                shouldSwitch = false;
+
+                x = rows[i].getElementsByTagName("td")[columnIndex];
+                y = rows[i + 1].getElementsByTagName("td")[columnIndex];
+
+                var xValue = x.innerHTML.trim();
+                var yValue = y.innerHTML.trim();
+
+                // Проверка на число
+                var isNumber = !isNaN(parseFloat(xValue)) && isFinite(xValue);
+
+                // Проверка на дату (простая проверка для демонстрации)
+                var isDate = xValue.match(/^\d{4}-\d{2}-\d{2}$/) !== null;
+
+                if (isNumber) {
+                    xValue = parseFloat(xValue);
+                    yValue = parseFloat(yValue);
+                } else if (isDate) {
+                    xValue = new Date(xValue);
+                    yValue = new Date(yValue);
+                }
+
+                if ((ascending && xValue > yValue) || (!ascending && xValue < yValue)) {
+                    shouldSwitch = true;
+                    break;
+                }
+            }
+
+            if (shouldSwitch) {
+                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                switching = true;
+            }
+        }
+
+        // Обновление статуса сортировки
+        if (lastSortedColumn === columnIndex) {
+            ascending = !ascending;
+        } else {
+            ascending = !ascending;
+            lastSortedColumn = columnIndex;
+        }
+    }
+    </script>
+</body>
+</html>
