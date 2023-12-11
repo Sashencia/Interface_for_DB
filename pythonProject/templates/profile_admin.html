@@ -105,11 +105,48 @@
       <label for="medicalRecords">Медицинские справки:</label>
       <input type="text" id="medicalRecords" name="medicalRecords">
     </div>
+    <div>
+        <label for="series">Series:</label>
+        <input type="text" id="series" name="series"><br><br>
+    </div>
+    <div>
+        <label for="number">Number:</label>
+        <input type="text" id="number" name="number"><br><br>
+    </div>
+    <div>
+        <label for="dob">Date of Birth:</label>
+        <input type="date" id="dob" name="dob"><br><br>
+    </div>
+    <div>
+        <label for="city_of_birth">City of Birth:</label>
+        <input type="text" id="city_of_birth" name="city_of_birth"><br><br>
+    </div>
+    <div>
+        <label for="issued_by">Issued by:</label>
+        <input type="text" id="issued_by" name="issued_by"><br><br>
+    </div>
+    <div>
+        <label for="issue_date">Issue Date:</label>
+        <input type="date" id="issue_date" name="issue_date"><br><br>
+    </div>
+    <div>
+        <label for="department_number">Department Number:</label>
+        <input type="text" id="department_number" name="department_number"><br><br>
+    </div>
+    <div>
+        <label for="registration">Registration:</label>
+        <input type="text" id="registration" name="registration"><br><br>
+    </div>
+    <div>
+        <input type="submit" value="Submit">
+    </div>
+
   </form>
 
 </div>
 
 <script>
+
   function searchUser() {
     var searchTerm = document.getElementById('searchInput').value;
     var data = { term: searchTerm };

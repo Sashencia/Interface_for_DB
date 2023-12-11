@@ -1,110 +1,138 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f4f4f4;
-    }
-
-    .header {
-      background-color: #333;
-      padding: 10px;
-      color: #fff;
-      text-align: center;
-    }
-
-    .burger-menu {
-      display: none;
-      position: fixed;
-      top: 50px;
-      left: 0;
-      width: 200px;
-      height: calc(100% - 50px);
-      background: #333;
-      z-index: 1; /* чтобы бургер меню было поверх остального контента */
-    }
-
-    .burger-menu ul {
-      padding: 0;
-      list-style: none;
-    }
-
-    .burger-menu li {
-      padding: 10px;
-    }
-
-    .burger-menu li a {
-      color: #fff;
-      text-decoration: none;
-    }
-
-    .content {
-      margin-left: 200px;
-      padding: 20px;
-    }
-
-    .profile-pic {
-      margin: 20px auto;
-      width: 200px;
-      height: 200px;
-      background-color: #ccc;
-      border-radius: 50%;
-      overflow: hidden;
-    }
-
-    @media (max-width: 768px) {
-      .burger-menu {
-        display: block;
-      }
-      .content {
-        margin-left: 0;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профиль аккаунта CRM</title>
+    <link rel="stylesheet" href="/static/styles/profile_normal.css">
 </head>
-<body>
 
-<div class="header">
-  <h1>Меню</h1>
+<body id = "userTable">
+    <header>
+        <h1>Профиль аккаунта CRM</h1>
+    </header>
+<div>
+    <div class="user-window">
+          <div class="search-bar">
+            <input id="searchInput" type="text" placeholder="Поиск пользователя...">
+            <button class="admin-button" onclick="searchUser()">Найти</button>
+          </div>
+
+      <table>
+        <tr>
+          <th>ФИО</th>
+          <th>Телефон</th>
+          <th>Почта</th>
+        </tr>
+          {% for person in users %}
+        <tr>
+          <td>{{ person[23] }}</td>
+          <td>{{ person[10] }}</td>
+          <td>{{ person[11] }}</td>
+        </tr>
+    {% endfor %}
+      </table>
+    <section>
+        <div class="profile-container">
+            <img class="profile-image" src="/static/img/avatar.jpg" alt="Аватар пользователя">
+            <div class="profile-info">
+                <label>ФИО:</label> {{user[4] + " " + user[5] + " " + user[6]}}<br>
+                <label>Email:</label> {{user[11]}}<br>
+                <label>Телефон:</label> {{user[10]}}<br>
+                <label>Информация о грейде:</label>{{grade[1]}}<br>
+                <label>Позиция в департаменте:</label>{{depart_position[3]}}<br>
+                <label>Департамент:</label>{{department[1]}}<br>
+                <button class="documents-btn" onclick="openModal()">Документы</button>
+            </div>
+            <button class="logout-btn" onclick="logout()">Выйти</button>
+        </div>
+    </section>
 </div>
+    <!-- Модальное окно с информацией о документах -->
+    <div id="modal" class="modal" onclick="closeModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <h2>Информация о документах</h2>
+            <!--<p>Образование: {{diploma[2] + "\n" + diploma[3] + "\n" + diploma[4] + "\n" + diploma[5] + "\n" + diploma[6]}}</p> -->
+            <table>
+                <tr>
+                    <td>Образование:</td>
+                    <td>{{diploma[2]}}</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>{{diploma[3]}}</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>{{diploma[4]}}</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>{{diploma[5]}}</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>{{diploma[6]}}</td>
+                </tr>
+                </table>
+            <p>Медицинские справки: {{user[15]}}</p>
+            <p>Сертификаты: {{achievments[1]}}</p>
+            <span class="close" onclick="closeModal()">&#10006;</span>
+        </div>
+    </div>
 
-<button id="burger-menu-button">☰</button>
+    <script>
+      function searchUser() {
+        var searchTerm = document.getElementById('searchInput').value;
+        var data = { term: searchTerm };
+        fetch('/profile_normal', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        })
+        .then(response => response.text())
+        .then(html => {
+          document.getElementById('userTable').outerHTML = html;
+        });
+      }
 
-<div id="burger-menu" class="burger-menu">
-  <ul>
-    <li><a href="/profile">Профиль</a></li>
-    <li><a href="#">Настройки</a></li>
-    <li><a href="#">Выйти</a></li>
-  </ul>
-</div>
+      function showInfo(userId) {
+        location.href = '/profile_user/' + String(userId);
+      }
+        // Показать модальное окно
+        function openModal() {
+            document.getElementById('modal').style.display = 'flex';
+        }
 
-<div class="content">
-  <h2>Профиль пользователя</h2>
-  <div class="profile-pic">
-    <!-- Вставьте сюда тег <img>, чтобы добавить фотографию -->
-  </div>
-</div>
+        // Закрыть модальное окно
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
 
-<script>
-  const burgerMenuButton = document.getElementById('burger-menu-button');
-  const burgerMenu = document.getElementById('burger-menu');
+        // Закрыть модальное окно при клике вне области
+        window.onclick = function(event) {
+            if (event.target == document.getElementById('modal')) {
+                closeModal();
+            }
+        }
 
-  burgerMenuButton.addEventListener('click', () => {
-    burgerMenu.style.display = burgerMenu.style.display === 'block' ? 'none' : 'block';
-  });
+        // Выход из аккаунта
+        function logout() {
+        // Всплывающее окно для подтверждения выхода
+        var confirmLogout = confirm("Вы уверены, что хотите выйти?");
 
-  document.addEventListener('click', function(event) {
-    const isClickInsideBurgerMenu = burgerMenu.contains(event.target);
-    const isBurgerMenuButton = event.target === burgerMenuButton;
+        if (confirmLogout) {
+            // Если пользователь выбрал "да", перенаправляем на страницу выхода
+            window.location.href = '/logout';
+        } else {
+            // Если пользователь выбрал "нет", оставляем его на текущей странице
+            // Можно добавить дополнительные действия, если нужно
+        }
+}
 
-    if (!isClickInsideBurgerMenu && !isBurgerMenuButton) {
-      burgerMenu.style.display = 'none';
-    }
-  });
-</script>
+    </script>
 
 </body>
 </html>
